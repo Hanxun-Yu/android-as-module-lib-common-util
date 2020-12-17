@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Utils</string>
+
+    <string name="pay_confirm">付费确认</string>
+</resources>

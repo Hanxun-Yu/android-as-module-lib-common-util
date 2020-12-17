@@ -1,0 +1,26 @@
+
+
+String getConfigValue(String configPath, String key) {
+    Properties properties = new Properties();
+    properties.load(new FileInputStream(configPath));
+    String ret = properties.getProperty(key);
+    return ret;
+}
+
+void setConfigValue(String configPath, String key, String value) {
+//    println "------------------setConfigValue----key:"+key+" val:"+value+"---------------"
+
+    Properties properties = new Properties();
+    properties.load(new FileInputStream(configPath));
+    properties.setProperty(key,value);
+    BufferedWriter bw;
+    properties.store(bw = new File(configPath).newWriter(),null)
+    bw.close()
+//    println "------------------setConfigValue-------------------"
+
+}
+
+ext {
+    getConfigValue = this.&getConfigValue
+    setConfigValue = this.&setConfigValue
+}

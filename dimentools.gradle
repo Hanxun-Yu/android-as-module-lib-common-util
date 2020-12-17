@@ -1,0 +1,158 @@
+/**
+ *
+ * @param resFoldAbs /Users/xxx/source/hotel/DBStarSmartHotel/Main/src/main/res
+ * @param srcValueFoldName values 当前值所在目录
+ * @param srcPixel 720 当前值所属尺寸
+ * @param defValuePixel 720 values目录下需要存放的尺寸
+ * @return
+ */
+void executeDimen(String resFoldAbs, String srcValueFoldName, int srcPixel, int defValuePixel) {
+    final String dimenFileName = "dimens.xml";
+    final String srcDimenFileAbs = resFoldAbs+"/"+srcValueFoldName+"/"+dimenFileName;
+    final Map<String,Integer> map = new HashMap<>();
+    map.put("values",defValuePixel);
+    map.put("values-1280x720",720);
+    map.put("values-1920x1080",1080);
+    map.put("values-1920x1032",1080);
+    map.put("values-1920x1008",1080);
+
+
+    //因数
+    final double factor = 720;
+
+    //mkdir
+    for (String key : map.keySet()) {
+        //是否是源文件目录
+        if(!key.equals(srcValueFoldName)) {
+            String targetValueFold = resFoldAbs + "/" + key;
+            mkdir(targetValueFold);
+            int targetPixel = map.get(key);
+            double mutiple = targetPixel / factor;
+            String ret = convertStreamToString(srcDimenFileAbs, mutiple);
+
+            String targetDimenFile =targetValueFold+"/"+dimenFileName;
+            this.deleteFile(targetDimenFile);
+            this.writeFile(targetDimenFile,ret);
+        }
+    }
+}
+
+ext {
+    executeDimen = this.&executeDimen
+}
+
+
+/**
+ * 读取文件 生成缩放后字符串
+ * 输出结果 *1.5倍
+ */
+private String convertStreamToString(String filepath, double f) {
+    StringBuilder sb = new StringBuilder();
+    try {
+        BufferedReader bf = new BufferedReader(new FileReader(filepath));
+        String line = null;
+        System.out.println("q1");
+        String endmark = "px</dimen>";
+        String startmark = ">";
+        while ((line = bf.readLine()) != null) {
+            if (line.contains(endmark)) {
+                int end = line.lastIndexOf(endmark);
+                int start = line.indexOf(startmark);
+                String stpx = line.substring(start + 1, end);
+                int px = Integer.parseInt(stpx);
+                int newpx = (int) ((double) px * f);
+                String newline = line.replace(px + "px", newpx + "px");
+                sb.append(newline + "\r\n");
+            } else {
+                sb.append(line + "\r\n");
+            }
+        }
+        System.out.println(sb.toString());
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    return sb.toString();
+}
+
+private boolean mkdir(String path) {
+    File file = new File(path);
+    if(!file.exists()) {
+        file.mkdir();
+    }
+}
+
+/**
+ * 根据路径删除指定的目录或文件，无论存在与否
+ *
+ * @param sPath 要删除的目录或文件
+ * @return 删除成功返回 true，否则返回 false。
+ */
+private boolean DeleteFolder(String sPath) {
+    File file = new File(sPath);
+    // // 判断目录或文件是否存在
+    if (!file.exists()) { // 不存在返回 false
+        return true;
+    } else {
+        // 判断是否为文件
+        if (file.isFile()) { // 为文件时调用删除文件方法
+            return deleteFile(sPath);
+        } else { // 为目录时调用删除目录方法
+            // return deleteDirectory(sPath);
+        }
+    }
+    return false;
+}
+
+/**
+ * 存为新文件
+ */
+private void writeFile(String filepath, String st) {
+    try {
+        FileWriter fw = new FileWriter(filepath);
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write(st);
+        bw.flush();
+        bw.close();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+///**
+// * 生成全px文件
+// */
+//private String getAllPx() {
+//    StringBuilder sb = new StringBuilder();
+//    try {
+//        sb.append("<resources>" + "\r\n");
+//        sb.append("<dimen name=\"screen_width\">1920px</dimen>" + "\r\n");
+//        sb.append("<dimen name=\"screen_height\">1080px</dimen>" + "\r\n");
+//        for (int i = 1; i <= 1920; i++) {
+//            System.out.println("i=" + i);
+//            sb.append("<dimen name=\"px" + i + "\">" + i + "px</dimen>"
+//                    + "\r\n");
+//        }
+//        sb.append("</resources>" + "\r\n");
+//        System.out.println(sb.toString());
+//    } catch (Exception e) {
+//        e.printStackTrace();
+//    }
+//    return sb.toString();
+//}
+
+/**
+ * 删除单个文件
+ *
+ * @param sPath 被删除文件的文件名
+ * @return 单个文件删除成功返回true，否则返回false
+ */
+private boolean deleteFile(String sPath) {
+    boolean flag = false;
+    File file = new File(sPath);
+    // 路径为文件且不为空则进行删除
+    if (file.isFile() && file.exists()) {
+        file.delete();
+        flag = true;
+    }
+    return flag;
+}
