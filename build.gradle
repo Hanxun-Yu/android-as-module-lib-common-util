@@ -23,13 +23,12 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile rootProject.ext.dependencies['appcompat-v7']
-    compile rootProject.ext.dependencies['support-v4']
-    testCompile rootProject.ext.dependencies['junit']
-    androidTestCompile rootProject.ext.dependencies['android-test']
+    implementation rootProject.ext.dependencies['appcompat']
+//    implementation rootProject.ext.dependencies['support-v4']
+    testImplementation rootProject.ext.dependencies['junit']
+    androidTestImplementation rootProject.ext.dependencies['android-test']
 
-    compile(name: 'ViewPagerIndicator-release', ext: 'aar')
-    compile 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.google.code.gson:gson:2.8.2'
 }
