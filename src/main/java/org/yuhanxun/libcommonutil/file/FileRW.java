@@ -36,6 +36,23 @@ public class FileRW {
         return str;
     }
 
+    public static byte[] fileToByteArr(String path) {
+        byte[] buffer = new byte[0];
+        File file = new File(path);
+        try {
+            FileInputStream in = new FileInputStream(file);
+            // size  为字串的长度 ，这里一次性读完
+            int size = in.available();
+            buffer = new byte[size];
+            in.read(buffer);
+            in.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return buffer;
+    }
+
     public static String readLastLine(File file, String charset) throws IOException {
         if (!file.exists() || file.isDirectory() || !file.canRead()) {
             return null;
@@ -82,20 +99,23 @@ public class FileRW {
 
     public static void write2File(String targetFile, String content) {
         try {
-            write2File(targetFile,(content).getBytes("utf-8"));
+            write2File(targetFile, (content).getBytes("utf-8"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
 
-    public static void write2File(String targetFile, byte[] bytes) {
-        hasFileExist(targetFile);
+    public static void write2File(String targetFile, byte[] content) {
+        File file = new File(targetFile).getParentFile();
+        if (!file.exists()) {
+            file.mkdirs();
+        }
         RandomAccessFile randomAccessFile = null;
         try {
             randomAccessFile = new RandomAccessFile(targetFile, "rw");
             long fileLength = randomAccessFile.length();
             randomAccessFile.seek(fileLength);
-            randomAccessFile.write(bytes);
+            randomAccessFile.write(content);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -109,24 +129,7 @@ public class FileRW {
         }
     }
 
-
     public static void writeLine2File(String targetFile, String content) {
         write2File(targetFile, content + "\n");
-    }
-
-
-    private static void hasFileExist(String targetFile) {
-        File file = new File(targetFile).getParentFile();
-        if (file != null) {
-            if (!file.exists()) {
-                file.mkdirs();
-            }
-            if (!file.canWrite()) {
-                file.setWritable(true);
-            }
-            if (!file.canRead()) {
-                file.setReadable(true);
-            }
-        }
     }
 }

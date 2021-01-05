@@ -19,10 +19,12 @@ public class AndroidResRW {
             InputStreamReader inputReader = new InputStreamReader(context.getResources().openRawResource(resId));
             BufferedReader bufReader = new BufferedReader(inputReader);
             String line = "";
-            String Result = "";
-            while ((line = bufReader.readLine()) != null)
-                Result += line;
-            return Result;
+            StringBuffer sb = new StringBuffer();
+            while ((line = bufReader.readLine()) != null) {
+                sb.append(line);
+                sb.append("\n");
+            }
+            return sb.toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -34,10 +36,12 @@ public class AndroidResRW {
             InputStreamReader inputReader = new InputStreamReader(context.getResources().getAssets().open(fileName));
             BufferedReader bufReader = new BufferedReader(inputReader);
             String line = "";
-            String Result = "";
-            while ((line = bufReader.readLine()) != null)
-                Result += line;
-            return Result;
+            StringBuffer sb = new StringBuffer();
+            while ((line = bufReader.readLine()) != null) {
+                sb.append(line);
+                sb.append("\n");
+            }
+            return sb.toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
