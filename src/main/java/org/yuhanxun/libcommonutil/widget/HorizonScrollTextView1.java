@@ -7,14 +7,13 @@ import android.graphics.Paint;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.TextView;
-
-import org.yuhanxun.libcommonutil.log.XLog;
 
 public class HorizonScrollTextView1 extends TextView implements OnClickListener {
 	private float textLength = 0f;// 文本长度
@@ -86,7 +85,7 @@ public class HorizonScrollTextView1 extends TextView implements OnClickListener 
 
 	@Override
 	public Parcelable onSaveInstanceState() {
-		XLog.d("HorizonScrollTextView1","onSaveInstanceState");
+		Log.d("HorizonScrollTextView1","onSaveInstanceState");
 
 		Parcelable superState = super.onSaveInstanceState();
 		SavedState ss = new SavedState(superState);
@@ -100,7 +99,7 @@ public class HorizonScrollTextView1 extends TextView implements OnClickListener 
 
 	@Override
 	public void onRestoreInstanceState(Parcelable state) {
-		XLog.d("HorizonScrollTextView1","onRestoreInstanceState");
+		Log.d("HorizonScrollTextView1","onRestoreInstanceState");
 		if (!(state instanceof SavedState)) {
 			super.onRestoreInstanceState(state);
 			return;

@@ -3,12 +3,11 @@ package org.yuhanxun.libcommonutil.widget;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.GridView;
-
-import org.yuhanxun.libcommonutil.log.XLog;
 
 /**
  * Created by yuhanxun on 15/6/17.
@@ -40,22 +39,22 @@ public class TwoLinesGridView extends GridView {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        XLog.d(TAG, "dispatchKeyEvent event:"+event.getAction());
+        Log.d(TAG, "dispatchKeyEvent event:"+event.getAction());
         if (isScroll) {
-            XLog.d(TAG, "dispatchKeyEvent isScroll return true");
+            Log.d(TAG, "dispatchKeyEvent isScroll return true");
             return true;
         }
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
-            XLog.e(TAG, "isScroll=" + isScroll);
+            Log.e(TAG, "isScroll=" + isScroll);
 //                dy =  getSelectedView().getHeight()*2;
             dy = getHeight() - getPaddingTop() - getPaddingBottom();
-            XLog.d(TAG, "dispatchKeyEvent dy="+dy);
+            Log.d(TAG, "dispatchKeyEvent dy="+dy);
 
             switch (event.getKeyCode()) {
                 case KeyEvent.KEYCODE_DPAD_DOWN:
 
                     if (isScroll) {
-                        XLog.d(TAG, "dispatchKeyEvent down isScroll");
+                        Log.d(TAG, "dispatchKeyEvent down isScroll");
                         return true;
                     }
                     if (ifNeedScroll(false)) {
@@ -63,13 +62,13 @@ public class TwoLinesGridView extends GridView {
                         smoothScrollBy(dy, 500);
                         isScroll = true;
                         scrollOrientionUp = false;
-                        XLog.d(TAG, "dispatchKeyEvent down return");
+                        Log.d(TAG, "dispatchKeyEvent down return");
                         return true;
                     }
                     break;
                 case KeyEvent.KEYCODE_DPAD_UP:
                     if (isScroll){
-                        XLog.d(TAG, "dispatchKeyEvent up isScroll");
+                        Log.d(TAG, "dispatchKeyEvent up isScroll");
                         return true;
                     };
 
@@ -78,14 +77,14 @@ public class TwoLinesGridView extends GridView {
                         smoothScrollBy(-dy, 500);
                         isScroll = true;
                         scrollOrientionUp = true;
-                        XLog.d(TAG, "dispatchKeyEvent up return");
+                        Log.d(TAG, "dispatchKeyEvent up return");
                         return true;
                     }
                     break;
             }
         }
         boolean ret = super.dispatchKeyEvent(event);
-        XLog.d(TAG, "dispatchKeyEvent return:"+ret);
+        Log.d(TAG, "dispatchKeyEvent return:"+ret);
         return ret;
     }
 
@@ -129,7 +128,7 @@ public class TwoLinesGridView extends GridView {
                 }
             }
         }
-        XLog.d(TAG, "ifNeedScroll ret:"+ret);
+        Log.d(TAG, "ifNeedScroll ret:"+ret);
 
         return ret;
     }
@@ -140,7 +139,7 @@ public class TwoLinesGridView extends GridView {
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
             if (scrollState == SCROLL_STATE_IDLE) {
-                XLog.d(TAG, "onScrollListener SCROLL_STATE_IDLE");
+                Log.d(TAG, "onScrollListener SCROLL_STATE_IDLE");
                 isScroll = false;
             }
 
@@ -149,10 +148,10 @@ public class TwoLinesGridView extends GridView {
 //                    setSelection(Math.min(getSelectedItemPosition() + getNumColumns(), getCount() - 1));
 //                else
 //                    setSelection(Math.max(getSelectedItemPosition() - getNumColumns(), 0));
-                XLog.d(TAG, "SCROLL_STATE_FLING");
+                Log.d(TAG, "SCROLL_STATE_FLING");
             }
             if (scrollState == SCROLL_STATE_TOUCH_SCROLL) {
-                XLog.d("TwoLinesGridView", "SCROLL_STATE_TOUCH_SCROLL");
+                Log.d("TwoLinesGridView", "SCROLL_STATE_TOUCH_SCROLL");
             }
 
         }
@@ -162,7 +161,7 @@ public class TwoLinesGridView extends GridView {
             TwoLinesGridView.this.firstVisibleItem = firstVisibleItem;
             TwoLinesGridView.this.visibleItemCount = visibleItemCount;
             TwoLinesGridView.this.totalItemCount = totalItemCount;
-            XLog.d("TwoLinesGridView", "firstVisibleItem:" + firstVisibleItem + " visibleItemCount:" + visibleItemCount + " totalItemCount:" + totalItemCount);
+            Log.d("TwoLinesGridView", "firstVisibleItem:" + firstVisibleItem + " visibleItemCount:" + visibleItemCount + " totalItemCount:" + totalItemCount);
         }
     };
     int firstVisibleItem;

@@ -3,8 +3,9 @@ package org.yuhanxun.libcommonutil;
 import android.app.Application;
 import android.content.Intent;
 import android.os.Looper;
-import android.test.ApplicationTestCase;
 import android.util.Log;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,17 +15,16 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.yuhanxun.libcommonutil.file.MD5Handler;
+import org.yuhanxun.libcommonutil.log.FileLogFactory;
+import org.yuhanxun.libcommonutil.log.ILog;
 import org.yuhanxun.libcommonutil.test.TestActivity;
 
-/**
- * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
- */
-public class ApplicationTest extends ApplicationTestCase<Application> {
-    public ApplicationTest() {
-        super(Application.class);
-    }
 
+@RunWith(AndroidJUnit4.class)
+public class ApplicationTest {
     String TAG = "ApplicationTest_dbstar";
 
     public void testMd5Handler() {
@@ -73,12 +73,6 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         Looper.loop();
     }
 
-    public void testActivity() {
-        Intent intent = new Intent(getContext(), TestActivity.class);
-        getContext().startActivity(intent);
-        Looper.loop();
-    }
-
     public void testMd5() {
         String path = "/data/dbstar/res/ch/movie.json";
         String path2 = "/data/dbstar/res/upload/apk/DataSync-dev_multiple_device_c6_v1.4.1.apk";
@@ -96,19 +90,19 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
             @Override
             public void onFinish(List<MD5Handler.MD5Bean> beans) {
                 super.onFinish(beans);
-                Log.d(TAG,"onfinish");
+                Log.d(TAG, "onfinish");
             }
 
             @Override
             public void onAllCorrect() {
                 super.onAllCorrect();
-                Log.d(TAG,"onAllCorrect");
+                Log.d(TAG, "onAllCorrect");
             }
 
             @Override
             public void onIncorrect(MD5Handler.MD5Bean bean) {
                 super.onIncorrect(bean);
-                Log.d(TAG,"onIncorrect bean:"+bean.toString());
+                Log.d(TAG, "onIncorrect bean:" + bean.toString());
             }
         });
 //        try {
@@ -181,5 +175,13 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
             temp[i * 2 + 1] = hexDigits[b & 0x0f];
         }
         return new String(temp);
+    }
+
+    @Test
+    public void testLog() {
+        ILog log = FileLogFactory.getFileLog(this, "/sdcard/testlog.txt");
+        log.d("msg1");
+        log.d("msg2", new Exception());
+
     }
 }

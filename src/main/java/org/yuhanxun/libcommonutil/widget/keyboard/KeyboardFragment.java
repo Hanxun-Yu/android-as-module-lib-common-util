@@ -1,6 +1,7 @@
 package org.yuhanxun.libcommonutil.widget.keyboard;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,6 @@ import android.widget.RelativeLayout;
 import androidx.annotation.Nullable;
 
 import org.yuhanxun.libcommonutil.baseClass.BaseFragment;
-import org.yuhanxun.libcommonutil.log.XLog;
 
 
 /**
@@ -65,7 +65,7 @@ public class KeyboardFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        XLog.d(TAG, "onCreate savedInstanceState:" + savedInstanceState);
+        Log.d(TAG, "onCreate savedInstanceState:" + savedInstanceState);
 
     }
 
@@ -73,7 +73,7 @@ public class KeyboardFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        XLog.d(TAG, "onResume");
+        Log.d(TAG, "onResume");
 
     }
 

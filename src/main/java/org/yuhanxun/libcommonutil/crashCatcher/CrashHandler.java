@@ -7,12 +7,12 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.yuhanxun.libcommonutil.date.DateUtil;
 import org.yuhanxun.libcommonutil.file.FileMover;
 import org.yuhanxun.libcommonutil.file.FileRW;
-import org.yuhanxun.libcommonutil.log.XLog;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -177,16 +177,16 @@ public class CrashHandler implements UncaughtExceptionHandler {
                 infos.put("crashTime", formatter.format(new Date()));
             }
         } catch (NameNotFoundException e) {
-            XLog.e(TAG, "an error occured when collect package info", e);
+            Log.e(TAG, "an error occured when collect package info", e);
         }
         Field[] fields = Build.class.getDeclaredFields();
         for (Field field : fields) {
             try {
                 field.setAccessible(true);
                 infos.put(field.getName(), field.get(null).toString());
-                XLog.d(TAG, field.getName() + " : " + field.get(null));
+                Log.d(TAG, field.getName() + " : " + field.get(null));
             } catch (Exception e) {
-                XLog.e(TAG, "an error occured when collect crash info", e);
+                Log.e(TAG, "an error occured when collect crash info", e);
             }
         }
         return infos;

@@ -1,6 +1,6 @@
 package org.yuhanxun.libcommonutil.reflect;
 
-import org.yuhanxun.libcommonutil.log.XLog;
+import android.util.Log;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -23,15 +23,15 @@ public class MethodUtil {
             } catch (IllegalAccessException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-                XLog.e(TAG, "IllegalAccessException", e);
+                Log.e(TAG, "IllegalAccessException", e);
             } catch (IllegalArgumentException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-                XLog.e(TAG, "IllegalArgumentException", e);
+                Log.e(TAG, "IllegalArgumentException", e);
             } catch (InvocationTargetException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-                XLog.e(TAG, "InvocationTargetException", e);
+                Log.e(TAG, "InvocationTargetException", e);
             }
         } else {
 //            System.out.println("METHOD NULL!");
